@@ -14,7 +14,7 @@ module tb_Nbit_PRPG();
     #10             reset = 0; load = 0;
   end
   
-  always #6 clk = ~clk;//clk аж╠Б 12ns
+  always #6 clk = ~clk;//clk period 12ns
   
 endmodule
 
