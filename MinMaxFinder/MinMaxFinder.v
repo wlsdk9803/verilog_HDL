@@ -62,15 +62,15 @@ module counterRed(clk, WriteEn, start);
   reg [3:0] countRed;
   
   always @ (posedge clk) begin
-    if(!WriteEn) begin//WriteEn¿Ã 0¿Ã∏È
-      countRed <= 4'b0000;//countRed¥¬ 0¿∏∑Œ √ ±‚»≠
-      start <= 1'b0;//startµµ 0¿∏∑Œ √ ±‚»≠
+    if(!WriteEn) begin//WriteEnÏù¥ 0Ïù¥Î©¥
+      countRed <= 4'b0000;//countRedÎäî 0ÏúºÎ°ú Ï¥àÍ∏∞Ìôî
+      start <= 1'b0;//startÎèÑ 0ÏúºÎ°ú Ï¥àÍ∏∞Ìôî
     end
-    else begin//WriteEn¿Ã 1¿Ã∏È
-      if(countRed == 4'b1000) start <= 1'b1;//countRed∞° 8¿Ã∏È start¥¬ 1
-                                            //countRed¥¬ ∞™ ¿Ø¡ˆ
-      else countRed <= countRed + 1;//countRed∞° 8¿Ã æ∆¥œ∏È, ¡Ô 8∫∏¥Ÿ ¿€¿∏∏È
-                                    //countRed¥¬ 1¡ı∞°, start¥¬ ∞™ ¿Ø¡ˆ
+    else begin//WriteEnÏù¥ 1Ïù¥Î©¥
+      if(countRed == 4'b1000) start <= 1'b1;//countRedÍ∞Ä 8Ïù¥Î©¥ startÎäî 1
+                                            //countRedÎäî Í∞í Ïú†ÏßÄ
+      else countRed <= countRed + 1;//countRedÍ∞Ä 8Ïù¥ ÏïÑÎãàÎ©¥, Ï¶â 8Î≥¥Îã§ ÏûëÏúºÎ©¥
+                                    //countRedÎäî 1Ï¶ùÍ∞Ä, startÎäî Í∞í Ïú†ÏßÄ
     end
   end//always
 endmodule
@@ -87,11 +87,11 @@ module counterBlue(clk, start, ReadRegEven, ReadRegOdd);
       ReadRegEven <= 3'b000;
       ReadRegOdd <= 3'b001;
     end
-    else begin//start∞° 1¿œ ∂ß
-      if(ReadRegEven < 6) ReadRegEven <= ReadRegEven + 2; //ReadRegEven∞° 6∫∏¥Ÿ ¿€¿∏∏È 2 ¡ı∞°
-                                                           //6¿Ã µ«∏È ∞™ ¿Ø¡ˆ
-      if(ReadRegOdd < 7) ReadRegOdd <= ReadRegOdd + 2; //ReadRegOdd∞° 7∫∏¥Ÿ ¿€¿∏∏È 2 ¡ı∞°
-                                                        //7¿Ã µ«∏È ∞™ ¿Ø¡ˆ
+    else begin//startÍ∞Ä 1Ïùº Îïå
+      if(ReadRegEven < 6) ReadRegEven <= ReadRegEven + 2; //ReadRegEvenÍ∞Ä 6Î≥¥Îã§ ÏûëÏúºÎ©¥ 2 Ï¶ùÍ∞Ä
+                                                           //6Ïù¥ ÎêòÎ©¥ Í∞í Ïú†ÏßÄ
+      if(ReadRegOdd < 7) ReadRegOdd <= ReadRegOdd + 2; //ReadRegOddÍ∞Ä 7Î≥¥Îã§ ÏûëÏúºÎ©¥ 2 Ï¶ùÍ∞Ä
+                                                        //7Ïù¥ ÎêòÎ©¥ Í∞í Ïú†ÏßÄ
     end
   end
 endmodule
@@ -102,29 +102,29 @@ module MinMax(clk, start, ReadDataEven, ReadDataOdd, Min, Max, Valid);
   input start;
   input [15:0] ReadDataEven;
   input [15:0] ReadDataOdd;
-  output reg [15:0] Min, Max;//∞ËªÍ¿Ã ≥°≥µ¿ª ∂ß √‚∑¬
+  output reg [15:0] Min, Max;//Í≥ÑÏÇ∞Ïù¥ ÎÅùÎÇ¨ÏùÑ Îïå Ï∂úÎ†•
   output reg Valid;
   
-  reg [15:0] min_even, max_even;//¬¶ºˆ ¡÷º“ø°º≠¿« √÷º⁄∞™, √÷¥Ò∞™
-  reg [15:0] min_odd, max_odd;//»¶ºˆ ¡÷º“ø°º≠¿« √÷º⁄∞™, √÷¥Ò∞™
-  reg [15:0] Min_store, Max_store;//√÷¥Ò∞™∞˙ √÷º⁄∞™¿ª ∞Ëº” ∞ËªÍ«œ∏Á ¿˙¿Â
-  reg [2:0] countNum;//∞ËªÍ¿Ã ≥°≥™¥¬ ¡ˆ¡°¿ª count«œ±‚ ¿ß«ÿ ªÁøÎ
+  reg [15:0] min_even, max_even;//ÏßùÏàò Ï£ºÏÜåÏóêÏÑúÏùò ÏµúÏÜüÍ∞í, ÏµúÎåìÍ∞í
+  reg [15:0] min_odd, max_odd;//ÌôÄÏàò Ï£ºÏÜåÏóêÏÑúÏùò ÏµúÏÜüÍ∞í, ÏµúÎåìÍ∞í
+  reg [15:0] Min_store, Max_store;//ÏµúÎåìÍ∞íÍ≥º ÏµúÏÜüÍ∞íÏùÑ Í≥ÑÏÜç Í≥ÑÏÇ∞ÌïòÎ©∞ Ï†ÄÏû•
+  reg [2:0] countNum;//Í≥ÑÏÇ∞Ïù¥ ÎÅùÎÇòÎäî ÏßÄÏ†êÏùÑ countÌïòÍ∏∞ ÏúÑÌï¥ ÏÇ¨Ïö©
   
   always @(posedge clk) begin
-    if(!start) begin//start∞° 0¿Ã∏È
-      min_even <= {16{1'b1}};//√÷º⁄∞™¿ª √‚∑¬«“ ∞Õ¿Ãπ«∑Œ ¡¶¿œ ≈´ ∞™¿∏∑Œ √ ±‚»≠
-                             //¿Ã»ƒ ∞™¿ª ∫Ò±≥«œ∏Á ¥ı ¿€¿∫ ∞™¿ª min_evenø° ¥Î¿‘
-      max_even <= 16'b0;//√÷¥Ò∞™¿ª √‚∑¬«“ ∞Õ¿Ãπ«∑Œ ¡¶¿œ ¿€¿∫ ∞™¿∏∑Œ √ ±‚»≠
-                        //¿Ã»ƒ ∞™¿ª ∫Ò±≥«œ∏Á ¥ı ≈´ ∞™¿ª max_evenø° ¥Î¿‘
+    if(!start) begin//startÍ∞Ä 0Ïù¥Î©¥
+      min_even <= {16{1'b1}};//ÏµúÏÜüÍ∞íÏùÑ Ï∂úÎ†•Ìï† Í≤ÉÏù¥ÎØÄÎ°ú Ï†úÏùº ÌÅ∞ Í∞íÏúºÎ°ú Ï¥àÍ∏∞Ìôî
+                             //Ïù¥ÌõÑ Í∞íÏùÑ ÎπÑÍµêÌïòÎ©∞ Îçî ÏûëÏùÄ Í∞íÏùÑ min_evenÏóê ÎåÄÏûÖ
+      max_even <= 16'b0;//ÏµúÎåìÍ∞íÏùÑ Ï∂úÎ†•Ìï† Í≤ÉÏù¥ÎØÄÎ°ú Ï†úÏùº ÏûëÏùÄ Í∞íÏúºÎ°ú Ï¥àÍ∏∞Ìôî
+                        //Ïù¥ÌõÑ Í∞íÏùÑ ÎπÑÍµêÌïòÎ©∞ Îçî ÌÅ∞ Í∞íÏùÑ max_evenÏóê ÎåÄÏûÖ
       min_odd <= {16{1'b1}};
       max_odd <= 16'b0;
     end
       else begin//if(start)
         if(min_even > ReadDataEven) min_even <= ReadDataEven;
-        //min_even¿Ã ReadDataEven∫∏¥Ÿ ≈©∏È min_evenø° ReadDataEven ∞™ ≥÷∞Ì ≈©¡ˆ æ ¿∏∏È min_even¿∫ ∞™ ¿Ø¡ˆ
+        //min_evenÏù¥ ReadDataEvenÎ≥¥Îã§ ÌÅ¨Î©¥ min_evenÏóê ReadDataEven Í∞í ÎÑ£Í≥† ÌÅ¨ÏßÄ ÏïäÏúºÎ©¥ min_evenÏùÄ Í∞í Ïú†ÏßÄ
                                                          
         if(ReadDataEven > max_even) max_even <= ReadDataEven;
-        //ReadDataEven¿Ã max_even∫∏¥Ÿ ≈©∏È max_evenø° ReadDataEven ∞™ ≥÷∞Ì ≈©¡ˆ æ ¿∏∏È max_even¿∫ ∞™ ¿Ø¡ˆ
+        //ReadDataEvenÏù¥ max_evenÎ≥¥Îã§ ÌÅ¨Î©¥ max_evenÏóê ReadDataEven Í∞í ÎÑ£Í≥† ÌÅ¨ÏßÄ ÏïäÏúºÎ©¥ max_evenÏùÄ Í∞í Ïú†ÏßÄ
           
         if(min_odd > ReadDataOdd) min_odd <= ReadDataOdd;
         if(ReadDataOdd > max_odd) max_odd <= ReadDataOdd;
@@ -134,29 +134,29 @@ module MinMax(clk, start, ReadDataEven, ReadDataOdd, Min, Max, Valid);
   always @(posedge clk) begin
     if(start) begin
         if(min_even > min_odd) Min_store <= min_odd;
-          //min_even¿Ã min_odd∫∏¥Ÿ ≈©∏È Min_store¿∫ min_odd
-        else Min_store <= min_even;//min_even¿Ã min_odd∫∏¥Ÿ ¿€∞≈≥™ ∞∞¿∏∏È Min_store¿∫ min_odd
+          //min_evenÏù¥ min_oddÎ≥¥Îã§ ÌÅ¨Î©¥ Min_storeÏùÄ min_odd
+        else Min_store <= min_even;//min_evenÏù¥ min_oddÎ≥¥Îã§ ÏûëÍ±∞ÎÇò Í∞ôÏúºÎ©¥ Min_storeÏùÄ min_odd
         if(max_even > max_odd) Max_store <= max_even;
         else Max_store <= max_odd;
     end//if(start)
   end//always
   
   always @(posedge clk) begin
-    if(!start) begin//start∞° 0¿œ ∂ß ∞™ √ ±‚»≠
+    if(!start) begin//startÍ∞Ä 0Ïùº Îïå Í∞í Ï¥àÍ∏∞Ìôî
       countNum <= 3'b0; 
       Valid <= 1'b0;
       Min <= 16'b0;
       Max <= 16'b0;
     end
     else begin//if(start)
-      if(countNum == 3'b101) begin//countNum¿Ã 4+1∞° µ«∏È Min, Max √‚∑¬
-                                  //clock π›øµ¿ª ∞Ì∑¡«œø© ø©¿Ø¿÷∞‘ ¿‚¥¬¥Ÿ.
-        Min <= Min_store;//¿˙¿Â«ÿ ≥ı¿∫ Min_store¿ª Minø° √‚∑¬
+      if(countNum == 3'b101) begin//countNumÏù¥ 4+1Í∞Ä ÎêòÎ©¥ Min, Max Ï∂úÎ†•
+                                  //clock Î∞òÏòÅÏùÑ Í≥†Î†§ÌïòÏó¨ Ïó¨Ïú†ÏûàÍ≤å Ïû°ÎäîÎã§.
+        Min <= Min_store;//Ï†ÄÏû•Ìï¥ ÎÜìÏùÄ Min_storeÏùÑ MinÏóê Ï∂úÎ†•
         Max <= Max_store;
-        Valid <= 1'b1;//Valid¥¬ 1
+        Valid <= 1'b1;//ValidÎäî 1
       end
-      else  countNum <= countNum + 1;//countNum¿Ã 4+1¿Ã æ∆¥œ∏È 
-                                     //¡Ô 5∫∏¥Ÿ ¿€¿∏∏È Min, Max √‚∑¬
+      else  countNum <= countNum + 1;//countNumÏù¥ 4+1Ïù¥ ÏïÑÎãàÎ©¥ 
+                                     //Ï¶â 5Î≥¥Îã§ ÏûëÏúºÎ©¥ Min, Max Ï∂úÎ†•
     end//if(start)
   end//always
 endmodule
