@@ -31,12 +31,12 @@ out2);
   registerFile_B registerB(clk, rst, ReadRegB, WriteRegB, WriteEnB, WriteDataB, ReadDataB);
   halfAdder_4bit HA(start, ReadDataA1[3:0], ReadDataB[7:4], c_out, sum);//halfAdder_4bit(start, in1,in2, c_out, sum)
   
-  assign out1 = c_out? {c_out, sum[3:1]} : sum;//c_outÀÌ 1ÀÌ¸é out1Àº {c_out, sum[3:1]}, 0ÀÌ¸é sum
-  always @(start, ReadDataA2, ReadDataB) begin//out2´Â ReadDataA2¿Í ReadDataB[3:0] Áß Å« ¼ö Ãâ·Â
+  assign out1 = c_out? {c_out, sum[3:1]} : sum;//c_outì´ 1ì´ë©´ out1ì€ {c_out, sum[3:1]}, 0ì´ë©´ sum
+  always @(start, ReadDataA2, ReadDataB) begin//out2ëŠ” ReadDataA2ì™€ ReadDataB[3:0] ì¤‘ í° ìˆ˜ ì¶œë ¥
     if(start) begin
       if(ReadDataA2 > ReadDataB[3:0]) out2 = ReadDataA2;
       else out2 = ReadDataB[3:0]; end
-    else out2 = 4'bxxxx;//start°¡ 0ÀÌ¸é unknownÀ¸·Î ÃÊ±âÈ­
+    else out2 = 4'bxxxx;//startê°€ 0ì´ë©´ unknownìœ¼ë¡œ ì´ˆê¸°í™”
   end
 endmodule
 
@@ -58,13 +58,13 @@ ReadDataA1, ReadDataA2);//8X4bit register file A
   
   reg [3:0] reg_file1 [0:7];//8x4bit
   
-  assign ReadDataA1=reg_file1[ReadRegA1];//ReadDataA1Àº reg_file1¿¡¼­ ReadRegA1¹øÂ°¿¡ ÀûÇôÀÖ´Â °Í
+  assign ReadDataA1=reg_file1[ReadRegA1];//ReadDataA1ì€ reg_file1ì—ì„œ ReadRegA1ë²ˆì§¸ì— ì í˜€ìˆëŠ” ê²ƒ
   assign ReadDataA2=reg_file1[ReadRegA2];
   
   always @(posedge clk or posedge rst) begin
-    if(rst) $readmemh("memory1.mem", reg_file1);//resetÀÌ 1ÀÌ¸é reg_file1¿¡ "memory1.mem"ÀÇ ³»¿ëÀ» Àû´Â´Ù.
-    else if(WriteEnA) reg_file1[WriteRegA] <= WriteDataA;//resetÀÌ 0ÀÏ ¶§ WriteEnA°¡ 1ÀÌ¸é
-                                                         //reg_file1¿¡¼­ WriteRegA¹øÂ°¿¡ ÀûÇôÀÖ´Â °ÍÀº WriteDataA
+    if(rst) $readmemh("memory1.mem", reg_file1);//resetì´ 1ì´ë©´ reg_file1ì— "memory1.mem"ì˜ ë‚´ìš©ì„ ì ëŠ”ë‹¤.
+    else if(WriteEnA) reg_file1[WriteRegA] <= WriteDataA;//resetì´ 0ì¼ ë•Œ WriteEnAê°€ 1ì´ë©´
+                                                         //reg_file1ì—ì„œ WriteRegAë²ˆì§¸ì— ì í˜€ìˆëŠ” ê²ƒì€ WriteDataA
   end
 endmodule
 
@@ -86,13 +86,13 @@ ReadDataB);//16X8bit register file B
   
   reg [7:0] reg_file2 [0:15];//16x8bit
   
-  assign ReadDataB=reg_file2[ReadRegB];//ReadDataB´Â reg_file2¿¡¼­ ReadRegA1¹øÂ°¿¡ ÀûÇôÀÖ´Â °Í
+  assign ReadDataB=reg_file2[ReadRegB];//ReadDataBëŠ” reg_file2ì—ì„œ ReadRegA1ë²ˆì§¸ì— ì í˜€ìˆëŠ” ê²ƒ
   
   always @(posedge clk or posedge rst) begin
-    if(rst) $readmemh("memory2.mem", reg_file2);//resetÀÌ 1ÀÌ¸é 
-                                                   //reg_file2¿¡ "memory2.mem"ÀÇ ³»¿ëÀ» Àû´Â´Ù.
-    else if(WriteEnB) reg_file2[WriteRegB] <= WriteDataB;//resetÀÌ 0ÀÏ ¶§ WriteEnB°¡ 1ÀÌ¸é
-                                                         //reg_file2¿¡¼­ WriteRegB¹øÂ°¿¡ ÀûÇôÀÖ´Â °ÍÀº WriteDataB
+    if(rst) $readmemh("memory2.mem", reg_file2);//resetì´ 1ì´ë©´ 
+                                                   //reg_file2ì— "memory2.mem"ì˜ ë‚´ìš©ì„ ì ëŠ”ë‹¤.
+    else if(WriteEnB) reg_file2[WriteRegB] <= WriteDataB;//resetì´ 0ì¼ ë•Œ WriteEnBê°€ 1ì´ë©´
+                                                         //reg_file2ì—ì„œ WriteRegBë²ˆì§¸ì— ì í˜€ìˆëŠ” ê²ƒì€ WriteDataB
   end
 endmodule
 
@@ -104,19 +104,19 @@ module halfAdder_4bit(start, in1,in2, c_out, sum);//4bit half adder
   output reg c_out;
   output reg [3:0] sum;
   
-  reg c1, c2, c3;//1°³ÀÇ 1bit half adder°ú 3°³ÀÇ 1bit full adderÀ» ÀÌ¾îÁÖ´Â reg c1, c2, c3
+  reg c1, c2, c3;//1ê°œì˜ 1bit half adderê³¼ 3ê°œì˜ 1bit full adderì„ ì´ì–´ì£¼ëŠ” reg c1, c2, c3
 
  always @(*) begin
-   if(start) begin//start°¡ 1ÀÏ ¶§
-     sum[0] = in1[0] ^ in2[0];//LSBÀÇ 1bit half adder
+   if(start) begin//startê°€ 1ì¼ ë•Œ
+     sum[0] = in1[0] ^ in2[0];//LSBì˜ 1bit half adder
      c1 = in1[0] & in2[0];
      
      {c2, sum[1]} = in1[1] + in2[1] + c1;//1bit full adder
      {c3, sum[2]} = in1[2] + in2[2] + c2;
      {c_out, sum[3]} = in1[3] + in2[3] + c3;
    end
-   else begin//start°¡ 0ÀÏ ¶§
-     c_out=1'bx;//unknown °ªÀ¸·Î ÃÊ±âÈ­
+   else begin//startê°€ 0ì¼ ë•Œ
+     c_out=1'bx;//unknown ê°’ìœ¼ë¡œ ì´ˆê¸°í™”
      sum = 4'bxxxx;
    end
   end
