@@ -32,7 +32,7 @@ module RisingEdge_Detector(clk, rst_n, X, Y);
   always @(present_state) begin
     case(present_state)
       S0: Y = 1'b0;
-      S1: Y = 1'b1;//현재 상태가 S2일 때만 1, 나머지는 0
+      S1: Y = 1'b1;//현재 상태가 S1일 때만 1, 나머지는 0
       S2: Y = 1'b0;
       default: Y = 1'b0;
     endcase
